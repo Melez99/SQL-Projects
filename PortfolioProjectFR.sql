@@ -88,7 +88,7 @@ ORDER BY 1, 2;
 --- Total Population vs Vaccinations ---
 
 SELECT dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations
-, SUM(convert(int, vac.new_vaccinations)) OVER (PARTITION BY dea.location ORDER BY dea.location, dea.date)
+, SUM(convert(bigint, vac.new_vaccinations)) OVER (PARTITION BY dea.location ORDER BY dea.location, dea.date)
 AS RollingVaccinated
 --, (RollingVaccinated/population)*100
 FROM PortfolioProject..CovDea dea
@@ -104,7 +104,7 @@ WITH PopvsVac (continent, location, date, population, new_vaccinations, RollingV
 AS
 (
 SELECT dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations
-, SUM(convert(int, vac.new_vaccinations)) OVER (PARTITION BY dea.location ORDER BY dea.location, dea.date)
+, SUM(convert(bigint, vac.new_vaccinations)) OVER (PARTITION BY dea.location ORDER BY dea.location, dea.date)
 AS RollingVaccinated
 --, (RollingVaccinated/population)*100
 FROM PortfolioProject..CovDea dea
@@ -134,7 +134,7 @@ RollingVaccinated numeric
 
 Insert into #PercentPopulationVaccinated
 SELECT dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations
-, SUM(CONVERT(int, vac.new_vaccinations)) OVER (Partition by dea.Location Order by dea.location, 
+, SUM(CONVERT(bigint, vac.new_vaccinations)) OVER (Partition by dea.Location Order by dea.location, 
 dea.date) as RollingVaccinated
 --, (RollingVaccinated/population)*100
 From PortfolioProject..CovDea dea
@@ -153,7 +153,7 @@ FROM #PercentPopulationVaccinated
 
 Create View PercentPopulationVaccinated as 
 Select dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations
-, SUM(CONVERT(int, vac.new_vaccinations)) OVER (Partition by dea.Location Order by dea.location, 
+, SUM(CONVERT(bigint, vac.new_vaccinations)) OVER (Partition by dea.Location Order by dea.location, 
 dea.date) as RollingVaccinated
 --, (RollingVaccinated/population)*100
 From PortfolioProject..CovDea dea
